@@ -1,4 +1,4 @@
-Maximizar Z = 2x1 + 3x2
-    x1 + x2 <= 5
-    2x1 + 5x2 <= 10
-    x1, x2 >= 0
+Maximizar Z = 3x1 + 4x2
+x1 + x2 <= 5
+x1 + 5x2 <= 10
+x1, x2 >= 0

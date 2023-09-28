@@ -1,4 +1,5 @@
 import re
+import numpy as np
 
 # Inicialize as listas
 listaFuncObj = []
@@ -34,36 +35,14 @@ def leArquivo():
     # for item in listaCondNaoNeg:
     #     print(item)
 
-def separaElementos():
+def separaFuncObj():
     for item in range(len(listaFuncObj)):
         item = listaFuncObj[0].split("Maximizar")
         func_obj = item[-1]
         
-    for elemento in func_obj:
-        if(elemento.startswith("Z")):
-            z = elemento
-        #elif(elemento.find("=")):
-            #print(elemento)
-
-
-    
-
-   
-   
-   
-        
-
-
-def main():
-    leArquivo()
-    separaElementos()
-    # String que contém a equação
-    equacao = "Z = 4x1 + 3x2 + 8x3"
-
-    # Use expressões regulares para encontrar os coeficientes e variáveis
     padrao = r'([+-]?\d*)?([a-zA-Z]\w*)'
 
-    matches = re.findall(padrao, equacao)
+    matches = re.findall(padrao, func_obj)
 
     coeficientes = {}  # Dicionário para armazenar os coeficientes
 
@@ -81,10 +60,43 @@ def main():
     # Imprima o dicionário resultante
     print(coeficientes)
     
-    chaves = []
-    for i in coeficientes:    
-        chaves.append(i)
-    print(chaves)
+    coeficientes_funcObj = []
+    for i in coeficientes.values():    
+        coeficientes_funcObj.append(i)
+        funcObj_coef = np.array(coeficientes_funcObj, dtype=int)
+    #print(funcObj_coef)
     
+    matriz = []    
+    matriz.append(funcObj_coef)
+
+    # for elemento in func_obj:
+    #     if(elemento.startswith("Z")):
+    #         z = elemento
+
+    #for valor in func_obj[1]:
+    #   print(valor)
+
+def separaRest():
+    coeficiente2 = {}
+    
+    for linha in range(len(listaRest)):
+        coeficiente2 = listaRest[linha]
+        #variavel = variavel.strip()
+
+
+    print(coeficiente2)
+
+    
+
+   
+   
+   
+        
+
+
+def main():
+    leArquivo()
+    separaFuncObj()
+    separaRest()
     
 main()
