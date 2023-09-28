@@ -81,6 +81,7 @@ def separaRest():
     
     for linha in range(len(listaRest)):
         coeficiente2 = listaRest[linha]
+        
         #variavel = variavel.strip()
 
 
