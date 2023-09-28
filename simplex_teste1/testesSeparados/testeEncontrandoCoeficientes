@@ -1,0 +1,131 @@
+# Abre o arquivo para leitura
+with open('testesSeparados/teste2.txt', 'r') as arquivo:
+    linhas = arquivo.readlines()
+
+# Conta o número de linhas
+numero_de_linhas = len(linhas)
+
+# Cria o dicionário para a primeira linha
+dicionario_1 = {'Linha 1': linhas[0].strip()}
+
+# Cria o dicionário para a última linha
+dicionario_2 = {'Linha ' + str(len(linhas)): linhas[-1].strip()}
+
+# Cria o dicionário para as linhas intermediárias
+dicionario_3 = {}
+for i in range(1, len(linhas) - 1):
+    dicionario_3['Linha ' + str(i + 1)] = linhas[i].strip()
+
+
+#------------------
+
+import re
+
+# Texto da expressão
+texto = "Z = 4a - 3b + 2c"
+
+# Inicialize uma lista para armazenar os coeficientes
+coeficientes = []
+alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+texto.strip()
+# Use expressões regulares para encontrar os coeficientes
+
+slv = []
+for letra in alfabeto:
+    
+    if letra in texto:
+        
+        num = texto.index(letra)
+        slv.append(int(texto[num-1]))
+        print(texto.index("a"))
+        print(slv)
+
+import re
+
+# Texto da expressão
+texto = "Z = 4a - 3b + 2c - 4d"
+
+# Remova os espaços em branco do texto
+texto = texto.replace(" ", "")
+
+# Inicialize uma lista para armazenar os coeficientes
+coeficientes = []
+alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+# Use expressões regulares para encontrar os coeficientes
+padrao = r'([-+]?\d+)([a-zA-Z])'
+matches = re.findall(padrao, texto)
+
+for coeficiente, variavel in matches:
+    coeficientes.append(int(coeficiente))
+
+# Imprime a lista de coeficientes
+print(coeficientes)
+
+
+# Texto da expressão
+texto = "a + b <= 5"
+
+# Divide o texto usando o operador <= como separador
+partes = dicionario_3.values()
+
+listaQual = []
+alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h"]
+valores_2 = []
+slv2 = []
+
+for valor in dicionario_3.values():
+    valor.strip()
+    
+    for item in valor:
+    
+        item.strip()
+        print("item",item)
+    
+        valor_1, valor_2 = valor.split("<=")
+        print(valor.index('<='))
+        print("valor1",valor_1)
+        print("valor2",valor_2)
+        
+        valor_1 = valor_1.replace(" ", "")
+
+
+        # Inicialize uma lista para armazenar os coeficientes
+        coeficientes2 = []
+        alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+        # Use expressões regulares para encontrar os coeficientes
+        padrao = r'([-+]?\d*)?([a-zA-Z])'
+        matches = re.findall(padrao, valor_1)
+
+
+
+        
+        # indexIgual = item.index('5')
+        # listaQual.append(int(item[indexIgual]))
+        # print("listaQuialq",listaQual)
+    
+     
+    
+# partes.split("<=")
+
+
+
+
+# # Remove espaços em branco ao redor das partes
+# parte_esquerda = partes[0].strip()
+# parte_direita = partes[1].strip()
+
+# # Imprime as partes separadas
+# print("Parte à esquerda:", parte_esquerda)
+# print("Parte à direita:", parte_direita)
+
+
+
+
+# Imprime os dicionários
+print('Dicionário 1:', dicionario_1)
+print('Dicionário 2:', dicionario_2)
+print('Dicionário 3:', dicionario_3)
+print("Cont_Linhas: ", numero_de_linhas)
