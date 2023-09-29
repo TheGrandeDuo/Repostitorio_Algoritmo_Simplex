@@ -15,6 +15,7 @@ num_restricoes = 3
 # Número máximo de iterações
 num_iteracoes = 3
 
+
 for iteracao in range(num_iteracoes):
     print(f"Iteração {iteracao + 1}:")
     print("Tabela atual:")
@@ -26,7 +27,7 @@ for iteracao in range(num_iteracoes):
     
     divisor = A[:num_restricoes, coluna_pivot]
     if divisor.any() == 0:
-        razoes = 0
+        razoes = 10000
     else:
         razoes = A[:num_restricoes, -1] / A[:num_restricoes, coluna_pivot]
     
