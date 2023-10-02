@@ -103,13 +103,87 @@ def encontraCoef_listaRest(listaRest):
     print("CoefRest",coefRest)
     return coefRest
 
+def organizaMatriz(CoefRest):
+ 
+    # Inicialize as listas vazias
+    lista_1 = []
+    lista_2 = []
+
+    # Percorra cada sublista em CoefRest
+    for sublista in CoefRest:
+        # Adicione as duas primeiras colunas em lista_1
+        lista_1.append(sublista[:2])
+        # Adicione a terceira coluna em lista_2
+        lista_2.append([sublista[2]])
+
+    # Imprima as listas resultantes
+    print("lista_1:", lista_1)
+    print("lista_2:", lista_2)
+
+    # Número de itens em uma sublista
+    num_itens = 2  # Substitua pelo valor desejado
+
+    # Criar a matriz identidade
+    matriz_identidade = [[1 if i == j else 0 for j in range(num_itens)] for i in range(num_itens)]
+
+    # Imprimir a matriz identidade
+    for linha in matriz_identidade:
+        print(linha)
+
+    #matriz_identidade = [[1, 0], [0, 1]]
+    #lista_1 = [[1, 1], [2, 7]]S
+
+    # Verificar as dimensões das matrizes
+    num_linhas_ident, num_colunas_ident = len(matriz_identidade), len(matriz_identidade[0])
+    num_linhas_1, num_colunas_1 = len(lista_1), len(lista_1[0])
+
+    # Verificar se as dimensões da matriz identidade correspondem às da matriz 1
+    if num_colunas_ident == num_linhas_1:
+        # Criar uma matriz resultante
+        matriz_resultante = []
+
+        # Preencher a matriz resultante com as linhas de lista_1 seguidas pelas linhas de matriz_identidade
+        for i in range(num_linhas_1):
+            linha_resultante = lista_1[i] + matriz_identidade[i]
+            matriz_resultante.append(linha_resultante)
+
+        # Imprimir a matriz resultante
+        for linha in matriz_resultante:
+            print(linha)
+    else:
+        print("As dimensões da matriz identidade não correspondem às da matriz 1.")
+
+    #matriz_identidade = [[1, 0], [0, 1]]
+    #lista_1 = [[1, 1], [2, 7]]
+    #lista_2 = [[5], [10]]
+
+    # Verificar as dimensões das matrizes
+    num_linhas_ident, num_colunas_ident = len(matriz_identidade), len(matriz_identidade[0])
+    num_linhas_1, num_colunas_1 = len(lista_1), len(lista_1[0])
+    num_linhas_outra, num_colunas_outra = len(lista_2), len(lista_2[0])
+
+    # Verificar se as dimensões da matriz identidade e da outra matriz correspondem às da matriz 1
+    if num_colunas_ident == num_linhas_1 and num_linhas_1 == num_linhas_outra:
+        # Adicionar a outra matriz à matriz resultante
+        for i in range(num_linhas_1):
+            matriz_resultante[i].extend(lista_2[i])
+
+        # Imprimir a matriz resultante atualizada
+        for linha in matriz_resultante:
+            print(linha)
+    else:
+        print("As dimensões da matriz identidade ou da outra matriz não correspondem às da matriz 1.")
+    return matriz_resultante
+
 def main():
     listaFuncObj, restr, cond_n_neg = leArquivo_criaLista()
     listaFuncObj = encontraCoef_listaFuncObj(listaFuncObj)
-    listaRestr = encontraCoef_listaRest(restr)
+    CoefRest = encontraCoef_listaRest(restr)
+    matriz_resultante = organizaMatriz(CoefRest)
+    print(matriz_resultante)
 
 
-    
+        
     
 main()
     
