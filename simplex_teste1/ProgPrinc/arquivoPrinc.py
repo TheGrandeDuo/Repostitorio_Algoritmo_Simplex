@@ -103,7 +103,7 @@ def encontraCoef_listaRest(listaRest):
     print("CoefRest",coefRest)
     return coefRest
 
-def organizaMatriz(CoefRest):
+def organizaMatriz_coefRest(CoefRest):
  
     # Inicialize as listas vazias
     lista_1 = []
@@ -121,7 +121,8 @@ def organizaMatriz(CoefRest):
     print("lista_2:", lista_2)
 
     # Número de itens em uma sublista
-    num_itens = 2  # Substitua pelo valor desejado
+    #print("CoefRest",len(CoefRest))
+    num_itens = len(CoefRest)  # Substitua pelo valor desejado
 
     # Criar a matriz identidade
     matriz_identidade = [[1 if i == j else 0 for j in range(num_itens)] for i in range(num_itens)]
@@ -173,14 +174,40 @@ def organizaMatriz(CoefRest):
             print(linha)
     else:
         print("As dimensões da matriz identidade ou da outra matriz não correspondem às da matriz 1.")
-    return matriz_resultante
+    return matriz_resultante, CoefRest
+
+def organizaMatriz_coefFuncObj(coefFuncObj, coefRest):
+    
+    for coef in coefFuncObj:
+        if(coef == 1):
+            coefFuncObj[-1] = 0
+        else:
+            coef = coef
+    print("Coef func obj",coefFuncObj)
+    
+    num_itens = len(coefRest)
+    
+    matriz_identidade = [[1 if i == j else 0 for j in range(num_itens)] for i in range(num_itens)]
+    
+    matriz_res = []
+    
+    # for coef2 in coefRest:
+    #     for item in matriz_identidade:
+    #         matriz_res.append(coef2)
+    #         matriz_res.append(item)
+    # print(matriz_res)
+    
+    
+            
+    return 0    
 
 def main():
     listaFuncObj, restr, cond_n_neg = leArquivo_criaLista()
-    listaFuncObj = encontraCoef_listaFuncObj(listaFuncObj)
+    CoefFuncObj = encontraCoef_listaFuncObj(listaFuncObj)
     CoefRest = encontraCoef_listaRest(restr)
-    matriz_resultante = organizaMatriz(CoefRest)
-    print(matriz_resultante)
+    matriz_resultante_coefRest = organizaMatriz_coefRest(CoefRest)
+    matriz_resultante_coefFuncObj = organizaMatriz_coefFuncObj(CoefFuncObj, CoefRest)
+    print(matriz_resultante_coefRest)
 
 
         
