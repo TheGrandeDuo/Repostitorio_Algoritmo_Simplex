@@ -59,23 +59,36 @@ elemento_pivot = matriz2[indice_linha_pivot][indice_coluna_pivot]
 
 print("Elemento Pivot:", elemento_pivot)
 
-# Número pelo qual você deseja dividir os elementos
-numero_divisor = 2
-
-# Escolha a lista interna que você deseja dividir
-indice_lista = 0
-
 # Use um loop for para realizar a divisão
 for i in range(len(matriz2[indice_linha_pivot])):
     matriz2[indice_linha_pivot][i] /= elemento_pivot
 
-print("Matriz após a divisão:")
+# Realize a eliminação gaussiana para zerar os elementos abaixo do elemento de pivô
+for i in range(len(matriz2)):
+    if i != indice_linha_pivot:
+        fator = matriz2[i][indice_coluna_pivot]  # Obtenha o fator de multiplicação
+        for j in range(len(matriz2[i])):
+            matriz2[i][j] -= fator * matriz2[indice_linha_pivot][j]
+
+# Imprima a matriz após a eliminação gaussiana
+print("Matriz após a eliminação gaussiana:")
 for linha in matriz2:
     print(linha)
 
-for i, linha in enumerate(matriz2):
-    if i != indice_linha_pivot:
-        print("Linha",linha)
+# print("Matriz após a divisão:")
+# for linha in matriz2:
+#     print(linha)
+
+# fatores = []
+
+# for i, linha in enumerate(matriz2):
+#     if i != indice_linha_pivot:
+#         print("Linha",linha)    
+#         fatores.append(linha[indice_coluna_pivot]*-1)       
+# print(fatores)
+# print(matriz2)
+
+
 
 
 # Obter elemento PIVOT
