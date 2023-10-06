@@ -103,50 +103,120 @@ def eliminacao_gaussiana(matriz):
        
         for coluna in range(len(matriz[indice_linha_pivot])):
             matriz[indice_linha_pivot][coluna] /= elemento_pivot
-        
-        matriz2, ultimaLinha = separar_ultima_linha(matriz)
-        print(matriz2, ultimaLinha)
 
-        for i, linha in enumerate(matriz2):
-            #print(i, linha)
-            if i != indice_linha_pivot:
-                for fator in fatores:  
-                    matriz2.append(matriz2[linha][0] + fator)
-                    
+        # =================== FUNCIONA =========================
+        # FUNCIONA, trabalhando em alguns ajustes
+        # matriz2, ultimaLinha = separar_ultima_linha(matriz)
+        # matriz3 = [linha[:] for linha in matriz2]
+ 
+        # for i in range(len(matriz3)-1):
+        #     for j in range(len(matriz3[i])):
+        #         matriz3[indice_linha_pivot][j] *= fatores[i]
+        #         if i != indice_linha_pivot:
+        #             matriz3[i][j] += matriz3[i-1][j]
+        #         matriz3[indice_linha_pivot][j] = matriz2[indice_linha_pivot][j]
+
+         # =================== FUNCIONA =========================
+        # Funciona porem tambem acredito que precisa de ajustes, ideia boa entretanto
+        # matriz2, ultimaLinha = separar_ultima_linha(matriz)
+        # matriz_nao_pivot = [linha[:] for linha in matriz2]
+        # lista_pivot = matriz_nao_pivot.pop(indice_linha_pivot)
+
+        # lista_nao_pivot = []
+        # for sublist in matriz_nao_pivot:
+        #     lista_nao_pivot.extend(sublist)
+
+        # for i in range(len(lista_pivot)):
+        #     for j in range(len(fatores)):
+        #         # Alguma maneira de nao fazer essa gambiarra
+        #         lista_pivot[i] *= fatores[j]
+        #         lista_nao_pivot[i] += lista_pivot[i]
+        #         lista_pivot[i] /= fatores[j]
+
+        # matriz2, ultimaLinha = separar_ultima_linha(matriz)
+        # matriz_nao_pivot = [linha[:] for linha in matriz2]
+        # lista_pivot = matriz_nao_pivot.pop(indice_linha_pivot)
+
+        # ============== NAO FUNCIONA ====================
+        # for i in range(len(lista_pivot)):
+        #     for j in range(len(fatores)):
+        #         lista_pivot[i] *= fatores[j]
+
+        # for i in range(len(matriz_nao_pivot)):
+        #     for j in range(len(matriz_nao_pivot[i])):
+        #         for k in range(len(fatores)):
+        #             matriz_nao_pivot[i][j] += lista_pivot[j]
+        #             #matriz_nao_pivot[i][j] /= fatores[k]
+        # for i in range(len(lista_pivot)):
+        #     for j in range(len(fatores)):
+        #         lista_pivot[i] /= fatores[j]
+
+        # for i in range(len(matriz2)):
+        #     for j in range(len(matriz2[i])-1):
+        #         if matriz2[i].index(i) != indice_linha_pivot:
+        #             print(matriz_nao_pivot[i][j])
+        #             matriz2[i].append(matriz_nao_pivot[0][i])
+
+        # print("Matriz2: ",matriz2)
+        # print("Fatores: ",fatores)
+        # print("Matriz3: ",matriz_nao_pivot)
+        # print("Lista Pivot",lista_pivot)
         
-        print("Matriz Mod: ",matriz2)
+        
+        # print("Lista Nao Pivot",lista_nao_pivot)
         # for linha in matriz:
         #     for coluna in linha:
         #         matriz[indice_linha_pivot][coluna] /= elemento_pivot
         # print(matriz)
-
+'''
 matriz = [[2, 3, 1, 0, 100],
-        [4, 2, 0, 1, 120],
-        [-60, -40, 0, 0, 0]]
-
+         [4, 2, 0, 1, 120],
+         [-60, -40, 0, 0, 0]]
+'''
+         
 #eliminacao_gaussiana(matriz)
 
+matriz = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+pos = 0  # Posição da lista que você deseja retirar
 
-# Matriz original
-matriz_mod = [[2, 3, 1, 0, 100], [1.0, 0.5, 0.0, 0.25, 30.0]]
+# Separar a lista na posição 'pos' e armazená-la em 'matriz_pivot'
+matriz_pivot = [matriz.pop(pos)]
 
-matriz3 = matriz_mod.copy()
+# 'matriz' agora contém as listas restantes
+matriz_nao_pivot = matriz
 
-# Índice da linha que você deseja substituir (0 para a primeira linha)
-linha_a_substituir = 0
+fatores = [-2, -4]
 
-# Lista de fatores
-fatores = [-2]
+# Certifique-se de que 'fatores' tenha o mesmo número de elementos que 'matriz_pivot[0]'
+if len(fatores) != len(matriz_pivot[0]):
+    raise ValueError("O número de elementos em 'fatores' deve ser igual ao número de elementos em 'matriz_pivot[0]'")
 
-# Índice da outra linha usada para o cálculo (0 para a primeira linha)
-outra_posicao = 1
+# Multiplicar os elementos de 'matriz_pivot' pelos fatores correspondentes e somar aos elementos em 'matriz_nao_pivot'
+for i in range(len(matriz_pivot[0])):
+    resultado = matriz_pivot[0][i] * fatores[i]
+    for j in range(len(matriz_nao_pivot)):
+        matriz_nao_pivot[j][i] += resultado
 
-# Realize o cálculo e substitua a linha
-matriz_mod[linha_a_substituir] = [x + y * fatores[0] for x, y in zip(matriz_mod[linha_a_substituir], matriz_mod[outra_posicao])]
+# Saída
+print("matriz_nao_pivot resultante:", matriz_nao_pivot)
 
-# Exibir a matriz resultante
-print(matriz3)
-print(matriz_mod)
+
+
+
+
+
+
+
+# matriz = [[1, 2, 3], [4, 5, 6]]
+# valores = [2, 3]
+
+# for i in range(len(matriz)):
+#     for j in range(len(matriz[i])):
+#         matriz[i][j] += valores[i]
+
+# print(matriz)
+
+
 
 
 #         elemento_pivot = ultima_linha[indice_coluna_pivot]
