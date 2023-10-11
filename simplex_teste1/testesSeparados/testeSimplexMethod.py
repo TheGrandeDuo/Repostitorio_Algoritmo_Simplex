@@ -1,49 +1,44 @@
-matriz = [[1, 2, 3],
-          [4, 5, 6]]
+matriz2 = [
+        [2, 1, 1, 0, 0, 16],
+        [1, 2, 0, 1, 0, 11],
+        ]
 
-lista_restante = [7,8,9]
+fatores = [-1, -2]
 
-fatores = [-2,-3]
+lista_pivot = [1, 3, 0, 0, 1, 15]
 
-matriz_copia = [[1, 2, 3],
-                [4, 5, 6]]
+elemento_pivot = 3
 
-matriz_copia[0][0] *= fatores[0]
-matriz_copia[0][1] *= fatores[0]
-matriz_copia[0][2] *= fatores[0]
+for valor in range(len(lista_pivot)):
+    lista_pivot[valor] /= elemento_pivot
 
-matriz_copia[1][0] *= fatores[1]
-matriz_copia[1][1] *= fatores[1]
-matriz_copia[1][2] *= fatores[1]
+# Defina o número de duplicações desejado
+numero_de_duplicacoes = 2
 
-print("Matriz Copia:", matriz_copia)
+# Crie a matriz duplicando a lista
+matriz_pivot = [lista_pivot[:] for _ in range(numero_de_duplicacoes)]
 
-# Funciona mas tem que revisar, esta estatico
-quantidade = 1
-multiplicado = False
-for fator in range(len(fatores)):
-    for linha in range(len(matriz)):
-        for valor in range(len(matriz[linha])):
-            print(f"Matriz[{fator}][{valor}]", matriz[fator][valor], "Quantidade: ",quantidade)
-            quantidade += 1
-            if ((quantidade >= 1) and (quantidade <= 3)):
-                matriz[fator][valor] *= fatores[fator]
-            if ((quantidade >= 7) and (quantidade <= 10)):
-                matriz[fator][valor] *= fatores[fator]
-            else:
-                matriz[fator][valor] = matriz[fator][valor]
-            
-            # if (quantidade >= 3) and (quantidade <= 5):
-            #     matriz[fator][valor] *= fatores[fator]
-            #     print(f"Matriz[{fator}][{valor}]: ",matriz[fator][valor])
-            #     quantidade += 1
-            #     print(quantidade)
-            # if (quantidade >= 6) and (quantidade <= 8):
-            #     matriz[fator][valor] *= fatores[fator]
-            #     print(f"Matriz[{fator}][{valor}]: ",matriz[fator][valor])
-            #     quantidade += 1
-            #     print(quantidade)
-            # else:
-            #     quantidade += 1
-                
-print(matriz)
+indice_linha_pivot = 2
+
+print("Iteracao 0")
+print("Matriz Pivot",matriz_pivot)
+print("Lista Pivot",lista_pivot)
+
+for linha in range(len(matriz_pivot)):
+    for coluna in range(len(matriz_pivot[0])):
+        matriz_pivot[linha][coluna] *= fatores[linha]
+        #print(f"Matriz: [{linha}][{coluna}]",matriz_pivot[linha][coluna])
+        #matriz[i][j] = matriz[i][j] * fatores[i]
+        matriz2[linha][coluna] += matriz_pivot[linha][coluna]
+
+print("Iteracao 1")
+print("Matriz Pivot",matriz_pivot)
+print("Matriz Nao Pivot",matriz2)
+print("Lista Pivot",lista_pivot)
+
+matriz2.insert(indice_linha_pivot, lista_pivot)
+print("Matriz Resultante",matriz2)
+
+for linha in matriz2:
+    print(linha)
+
