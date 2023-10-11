@@ -1,5 +1,13 @@
 import copy
 
+def separaPrimeiraIteracao(matriz):
+    
+    matriz_copia = copy.deepcopy(matriz)
+    
+    linha_fObj_primeira_iteracao = matriz_copia.pop()
+    #print(linha_fObj_primeira_iteracao)
+    return linha_fObj_primeira_iteracao
+
 def encontrar_colunaPivot(matriz, iteracao):
     ultima_linha = matriz[-1]
     coluna_pivot = ultima_linha[0]
@@ -21,7 +29,7 @@ def encontrar_colunaPivot(matriz, iteracao):
 
 def encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot):
     
-    resultados_divisao = [rest_valores[i] / linha[indice_coluna_pivot] if linha[indice_coluna_pivot] != 0 else 10000 for i, linha in enumerate(rest_semValores)]
+    resultados_divisao = [10000 if linha[indice_coluna_pivot] == 0 else rest_valores[i] / linha[indice_coluna_pivot] for i, linha in enumerate(rest_semValores)]
 
     if not resultados_divisao:
         return None, None  # Trata a lista vazia
@@ -30,12 +38,13 @@ def encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot):
     indice_linha_pivot = 0
 
     for i, valor in enumerate(resultados_divisao):
-        if valor < menor_valor:
-            menor_valor = valor
-            indice_linha_pivot = i
+        if valor >= 0:
+            if valor < menor_valor:
+                menor_valor = valor
+                indice_linha_pivot = i
             
     # print("Index Linha Pivot",indice_linha_pivot)
-    # print("Resultados da Divisão:", resultados_divisao)
+    print("Resultados da Divisão:", resultados_divisao)
 
     return indice_linha_pivot
     
@@ -91,18 +100,20 @@ def copia_lista(lista):
     copiaLista = lista[:]
     return copiaLista
 
-def eliminacao_gaussiana(matriz, valores_var_basica):
+def eliminacao_gaussiana(matriz, valores_var_basica, linha_fObj_primeira_iteracao):
     iteracao = 0
     valores_vars_basica = valores_var_basica
-    
+        
     indice_coluna_pivot = encontrar_colunaPivot(matriz, iteracao)
     rest_semValores, rest_valores = separaMatriz(matriz)
     indice_linha_pivot = encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot)
     elemento_pivot = elementoPivot(matriz, indice_linha_pivot, indice_coluna_pivot)
     fatores = calculaListaFatores(matriz, indice_linha_pivot, indice_coluna_pivot)
-    ## print("Elemento Pivot",elemento_pivot)
-    ## print("Fatores",fatores)
+    print("Elemento Pivot",elemento_pivot)
+    print("Fatores",fatores)
 
+    print("Indice Linha",indice_linha_pivot)
+    print("Indice Coluna",indice_coluna_pivot)
     matriz_das_restricoes, linha_aux = separar_ultima_linha(matriz)
     ## print("Matriz2",matriz2,"Ultima linha",linha_cj_zj)
     
@@ -118,7 +129,8 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
     #     linha_copia = linha  # Crie uma cópia da linha
     #     teste.append(linha_copia)
     
-    teste = [60, 40, 0, 0, 0]
+    teste = linha_fObj_primeira_iteracao
+    #teste = [60, 40, 0, 0, 0]
     # print("Copiaaaaa",teste)
     
     lista_pivot = matriz_das_restricoes.pop(indice_linha_pivot)
@@ -126,7 +138,7 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
     for valor in range(len(lista_pivot)):
         lista_pivot[valor] /= elemento_pivot
     
-    num_linhas = 2
+    num_linhas = len(matriz)-1
     numero_de_duplicacoes = num_linhas - 1
     
     # Duplicacao da lista_pivot para facilitar os calculos
@@ -134,7 +146,7 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
 
     # print("Iteracao 0")
     # print("Fatores",fatores)
-    # print("Matriz Pivot",matriz_pivot)
+    print("Matriz Pivot",matriz_pivot)
     # print("Lista Pivot",lista_pivot)
 
     for linha in range(len(matriz_pivot)):
@@ -157,7 +169,7 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
     
     num_colunas = len(matriz[0])
 
-    linha_zj = [[0] * num_colunas]
+    # linha_zj = [[0] * num_colunas]
 
     # print(linha_zj)
 
@@ -195,7 +207,8 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
     # for i in range(len(matriz_resultante)):
     #     for j in range(len(matriz_resultante[0])):
     #         # print(matriz_resultante[i][-1])
-        
+    iteracao += 1
+    
     return matriz_resultante, valores_vars_basica, linha_cjzj
         # for coluna in range(len(matriz[indice_linha_pivot])):
         #     matriz[indice_linha_pivot][coluna] /= elemento_pivot
@@ -258,25 +271,36 @@ def eliminacao_gaussiana(matriz, valores_var_basica):
         #         matriz[indice_linha_pivot][coluna] /= elemento_pivot
         # # print(matriz)
 
-matriz = [[2, 3, 1, 0, 100],
+matriz1 = [[2, 3, 1, 0, 100],
          [4, 2, 0, 1, 120],
          [60, 40, 0, 0, 0]]
+
+matriz2 = [[2, 1, 1, 0, 0, 16],
+           [1, 2, 0, 1, 0, 11],
+           [1, 3, 0, 0, 1, 15],
+           [30, 50, 0, 0, 0, 0]]
 
 matriz3 = [[0.0, 2.0, 1.0, -0.5, 40.0],
            [1.0, 0.5, 0.0, 0.25, 30.0], 
            [0.0, 10.0, 0.0, -15.0, 0]]
 
-var_basica = [0, 0]
+num_colunas = len(matriz2)
+var_basica = [0] * (num_colunas-1)
+
+matriz = matriz2
 
 iteracao = 1
-matriz, valores_var_basica, linhacjzj = eliminacao_gaussiana(matriz, var_basica)
+linha_fObj_primeira_iteracao = separaPrimeiraIteracao(matriz)
+print(linha_fObj_primeira_iteracao)
+matriz, valores_var_basica, linhacjzj = eliminacao_gaussiana(matriz, var_basica, linha_fObj_primeira_iteracao)
+
 print(f"Iteracao {iteracao}")
 print(matriz)
 while True:
     if all(x <= 0 for x in linhacjzj[:-1]):
         break
     else:
-        matriz, valores_var_basica, linhacjzj = eliminacao_gaussiana(matriz, var_basica)
+        matriz, valores_var_basica, linhacjzj = eliminacao_gaussiana(matriz, var_basica, linha_fObj_primeira_iteracao)
         iteracao += 1
         print(f"Iteracao {iteracao}")
         print(matriz)
