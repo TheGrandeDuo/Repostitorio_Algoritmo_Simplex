@@ -64,3 +64,49 @@ print("\n")
 print("Matriz Resultante")
 for linha in matriz_resultado2:
     print(linha)
+
+matriz = [ [2.0, 1.0, 1, 0, 0, 100.0],
+           [1.0, 1.0, 0, 1, 0, 80.0],
+           [1.0, 0.0, 0, 0, 1, 40.0],
+           [3.0, 2.0, 0, 0, 0, 0] ]
+
+
+
+# Obtenha o número de colunas na matriz
+num_colunas = len(matriz[0])
+
+# Crie legendas
+legendas = [f'x{i}' for i in range(1, num_colunas)] + ['b']
+
+# Imprima as legendas
+for legenda in legendas:
+    print(legenda, end="\t")
+print()
+
+# Imprima os valores da matriz
+for linha in matriz:
+    for valor in linha:
+        print(valor, end="\t")
+    print()
+print(legendas)
+
+indice = 1
+
+# 3 restricoes 
+# tam = len(matriz[0])
+# tam_rest = len(matriz_das_restricoes)
+
+# resut = tam - tam_rest = 3
+
+# while tam(var_basica) < tam
+    # x{result}
+    # result 
+
+# 2 restricoes = [x3, x4]
+
+var_basica = ['x3','x4','x5']
+
+var_basica.pop(indice)
+var_basica.insert(indice, legendas[indice])
+
+print(var_basica)
