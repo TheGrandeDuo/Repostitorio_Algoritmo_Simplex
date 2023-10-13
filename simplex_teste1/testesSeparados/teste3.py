@@ -11,6 +11,43 @@ def separaPrimeiraIteracao(matriz):
     
     return linha_fObj_primeira_iteracao
 
+def separaPrimeiraVariavel(matriz):
+    tamanho_matriz = len(matriz[0])
+    
+    variaveis_totais = []
+    tamanho_variaveis_totais = len(variaveis_totais)
+    
+    while tamanho_variaveis_totais < tamanho_matriz-1:
+        variaveis_totais.append("x" + str(tamanho_variaveis_totais+1))
+        tamanho_variaveis_totais += 1
+    
+    print("TAMMMM",tamanho_matriz)
+    print(variaveis_totais)
+    
+    
+
+def separaVariaveisTotais(matriz):
+    
+    matriz2, ult = separaMatriz(matriz)
+    
+    print(matriz2)
+    
+    tamanho_matriz_total = len(matriz[0])
+    tamanho_matriz_restricoes = len(matriz2)
+
+    tamanho_var = tamanho_matriz_total - tamanho_matriz_restricoes
+
+    print("Tamanho Matriz Total",tamanho_matriz_total)
+    #print("Tamanho Matriz Restricoes",tamanho_matriz_restricoes)
+    print("Tamanho Var",tamanho_var)
+
+    var_fdf = []
+
+    while tamanho_var < tamanho_matriz_total:
+        var_fdf.append("x" + str(tamanho_var))
+        tamanho_var += 1
+        
+    print(var_fdf)
 def encontrar_colunaPivot(matriz):
     ultima_linha = matriz[-1]
     coluna_pivot = ultima_linha[0]
@@ -93,7 +130,7 @@ def calculaListaFatores(matriz, indice_linha_pivot, indice_coluna_pivot):
     
     return fatores
 
-def calculaLinhaCjZj(valores_vars_basica, variaveis_basicas,indice_linha_pivot, indice_coluna_pivot, teste, matriz_das_restricoes):
+def calculaLinhaCjZj(valores_vars_basica, indice_linha_pivot, indice_coluna_pivot, teste, matriz_das_restricoes):
     
     # print("Variaveis do padrao (nao modificadas)")
     # print("Variaveis Basicas:", valores_vars_basica)
@@ -101,11 +138,9 @@ def calculaLinhaCjZj(valores_vars_basica, variaveis_basicas,indice_linha_pivot, 
     # print("Indice Coluna:", indice_coluna_pivot)
     # print("Teste:", teste)
     # print("Matriz Restricoes", matriz_das_restricoes)
-        
-    variaveis_basicas.pop(indice_linha_pivot)
-    print("VB",variaveis_basicas)
-    variaveis_basicas.insert(indice_linha_pivot, legendas[indice_coluna_pivot])
-    print("VB",variaveis_basicas)
+    
+    #variaveis_basicas.pop(indice_linha_pivot)
+    #variaveis_basicas.insert(indice_linha_pivot, )
     
     valores_vars_basica.pop(indice_linha_pivot)
     valores_vars_basica.insert(indice_linha_pivot, teste[indice_coluna_pivot])
@@ -124,43 +159,15 @@ def calculaLinhaCjZj(valores_vars_basica, variaveis_basicas,indice_linha_pivot, 
     
     return linha_cjzj
 
-def calcula_variaveis_basicas(matriz, rest_semValores):
-    print("Matriz",matriz)
-    print("Restricoes",rest_semValores)
-    
-    tamanho_matriz_original = len(matriz[0])
-    tamanho_matriz_restricoes_linha = len(rest_semValores)
-    tamanho_matriz_restricoes_coluna = len(rest_semValores[0])
-    
-    
-    print("Tamanho Matriz Original",)
-    print("Tamanho Matriz Restricoes_Linha",tamanho_matriz_restricoes_linha)
-    print("Tamanho Matriz Restricoes_Coluna",tamanho_matriz_restricoes_coluna)
-    
-    variaveis_basicas = []
-
-    tamanho_var = tamanho_matriz_original - tamanho_matriz_restricoes_linha
-
-    while tamanho_var < tamanho_matriz_original:
-        variaveis_basicas.append("x" + str(tamanho_var))
-        tamanho_var += 1
-        
-    print("Variaveis Basicas",variaveis_basicas)
-    
-    return variaveis_basicas
-    
-
-def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fObj_primeira_iteracao):
+def eliminacao_gaussiana(matriz, valores_var_basica, linha_fObj_primeira_iteracao):
     iteracao = 0
     valores_vars_basica = valores_var_basica
-    variaveis_basicas = variaveis_basicas
-    
+        
     indice_coluna_pivot = encontrar_colunaPivot(matriz)
     rest_semValores, rest_valores = separaMatriz(matriz)
     indice_linha_pivot = encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot)
     elemento_pivot = elementoPivot(matriz, indice_linha_pivot, indice_coluna_pivot)
     fatores = calculaListaFatores(matriz, indice_linha_pivot, indice_coluna_pivot)
-    variaveis_basicas = calcula_variaveis_basicas(matriz, rest_semValores)
 
     matriz_das_restricoes, linha_aux = separar_ultima_linha(matriz)
 
@@ -193,7 +200,7 @@ def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fO
     
     matriz_resultante = [row[:] for row in matriz_das_restricoes]
     
-    linha_cjzj = calculaLinhaCjZj(valores_vars_basica, variaveis_basicas, indice_linha_pivot, indice_coluna_pivot, teste, matriz_das_restricoes)
+    linha_cjzj = calculaLinhaCjZj(valores_vars_basica, indice_linha_pivot, indice_coluna_pivot, teste, matriz_das_restricoes)
     
     matriz_resultante.append(linha_cjzj)
     
@@ -201,7 +208,7 @@ def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fO
     
     iteracao += 1
     
-    return matriz_resultante, linha_cjzj, variaveis_basicas
+    return matriz_resultante, linha_cjzj
 
 def imprimeMatriz(matriz):
     print("\n")
@@ -233,35 +240,27 @@ def main():
 
 
 
-    matriz = matriz1
-
-    num_linhas = len(matriz)
-    num_colunas = len(matriz[0])
-    
+    num_colunas = len(matriz2)
     var_basica = [0] * (num_colunas-1)
 
-    variaveis_basicas = []
-    tamanho_variaveis_basicas = len(variaveis_basicas)
-    while tamanho_variaveis_basicas < num_colunas-1:
-        variaveis_basicas.append("x" + str(tamanho_variaveis_basicas+1))
-        tamanho_variaveis_basicas += 1
-    print("VB",variaveis_basicas)
+    matriz = matriz2
 
     iteracao = 1
     linha_fObj_primeira_iteracao = separaPrimeiraIteracao(matriz)
-    matriz, linhacjzj = eliminacao_gaussiana(matriz, variaveis_basicas, var_basica, linha_fObj_primeira_iteracao)
+    #variaveis_totais = separaVariaveisTotais(matriz)
+    primeira_var = separaPrimeiraVariavel(matriz)
+    matriz, linhacjzj = eliminacao_gaussiana(matriz, var_basica, linha_fObj_primeira_iteracao, primeira_var)
 
     print(f"Iteracao {iteracao}", imprimeMatriz(matriz))
     while iteracao <= 2:
         if all(x <= 0 for x in linhacjzj[:-1]):
             break
         else:
-            matriz, linhacjzj = eliminacao_gaussiana(matriz, variaveis_basicas, var_basica, linha_fObj_primeira_iteracao)
+            matriz, linhacjzj = eliminacao_gaussiana(matriz, var_basica, linha_fObj_primeira_iteracao)
             iteracao += 1
             print(f"Iteracao {iteracao}", imprimeMatriz(matriz))
 
     imprimeMatriz(matriz)
- 
 
 if __name__ == "__main__":
     main()

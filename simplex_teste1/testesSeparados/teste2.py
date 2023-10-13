@@ -203,7 +203,7 @@ def main():
     num_colunas = len(matriz2)
     var_basica = [0] * (num_colunas-1)
 
-    matriz = matriz4
+    matriz = matriz1
 
     iteracao = 1
     linha_fObj_primeira_iteracao = separaPrimeiraIteracao(matriz)

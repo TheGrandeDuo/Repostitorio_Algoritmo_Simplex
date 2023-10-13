@@ -1,3 +1,4 @@
+'''
 matriz_base2 = [ ['1','2','3'],
                 ['4','5','6'],
                 ['7','8','9'],
@@ -96,6 +97,8 @@ indice = 1
 # tam = len(matriz[0])
 # tam_rest = len(matriz_das_restricoes)
 
+
+
 # resut = tam - tam_rest = 3
 
 # while tam(var_basica) < tam
@@ -110,3 +113,41 @@ var_basica.pop(indice)
 var_basica.insert(indice, legendas[indice])
 
 print(var_basica)
+
+'''
+
+# Pega o tamanho da matriz total (elementos_coluna)
+# Pega o tamanho da matriz de restricoes (quant_linhas)
+
+# matriz_total = 5
+# matriz_restricoes = 2
+# quantidade x = (matriz_total - matriz_restricoes)
+
+# preencher ate o tamanho de matriz_restricoes (quant_linhas)
+#(x3, x4)
+
+
+matriz_total = [[1,2,1,0,3],
+                [4,5,0,1,6]]
+
+matriz_restricoes = [[1, 2, 3],
+                     [4, 5, 6]]
+
+var_basica = [10, 20]
+
+tamanho_matriz_total = len(matriz_total[0])
+tamanho_matriz_restricoes = len(matriz_restricoes)
+
+tamanho_var = tamanho_matriz_total - tamanho_matriz_restricoes
+
+print("Tamanho Matriz Total",tamanho_matriz_total)
+print("Tamanho Matriz Restricoes",tamanho_matriz_restricoes)
+print("Tamanho Var",tamanho_var)
+
+var_fdf = []
+
+while tamanho_var < tamanho_matriz_total:
+    var_fdf.append("x" + str(tamanho_var))
+    tamanho_var += 1
+    
+print(var_fdf)
