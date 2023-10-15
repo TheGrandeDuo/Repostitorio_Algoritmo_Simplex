@@ -78,6 +78,13 @@ class JanelaMatrizValores:
             print(pedaço)
         print(pedaços)
 
+# def transformaStringInt():
+#     listaInt = []
+    
+#     for num in li
+    
+#     return listaInt
+    
 
 def main():
     root = tk.Tk()

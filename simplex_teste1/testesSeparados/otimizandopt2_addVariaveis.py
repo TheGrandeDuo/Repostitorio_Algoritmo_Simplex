@@ -1,5 +1,86 @@
 import copy
 
+def transformaStringInt(matriz_string):
+    
+    matriz_int = [[int(element) for element in row] for row in matriz_string]
+
+    # print("Matriz Int", matriz_int)
+    return matriz_int
+        
+def adicionaMatrizIdentidade(matriz_int):
+
+    # Procedimento Padrao
+    # 1) separar ultima linha -> linha objetivo
+    # 2) separar ultimos valores, ficando somente com os coeficientes das restricoes
+    # 3) Adicionar matriz_identidade do tamanho da matriz_das_restricoes nas listas
+    # 4) Adicionar ultimos valores novamente no final de cada lista
+    # 5) Adicionar quantidade de 0 certas na funcao objetivo
+    # 6) Adicionar ultima linha (linha_objetivo) novamente na matriz_separada_mod
+    # 7) Retorna matriz_separada_mod para utilizar em calculos
+
+    # -----------------------------------------------------------------------------------------#
+    
+    # 1) Divide em matriz_das_restricoes e ultima_linha
+    
+    matriz_das_restricoes, ultima_linha = separar_ultima_linha(matriz_int)
+
+    # Armazena os resultados das restricoes em lista_ultimos_valores
+    lista_ultimos_valores = [row.pop() for row in matriz_das_restricoes]
+
+    # print("Lista Ultimos Valores:", lista_ultimos_valores)
+    # print("Matriz das Restricoes:", matriz_das_restricoes)
+    
+    # -----------------------------------------------------------------------------------------#
+    
+    # 2) Adicionar matriz_identidade do tamanho da matriz_das_restricoes nas listas
+    
+    #matriz_separada = [[1, 2], [4, 5], [7, 8]]
+    tamanho_matriz = len(matriz_das_restricoes)
+
+    # Adicionar a matriz identidade a cada lista em matriz_separada
+    matriz_separada_mod = [row + [1 if i == j else 0 for i in range(tamanho_matriz)] for j, row in enumerate(matriz_das_restricoes)]
+    
+    # print("Matriz Separada Mod:", matriz_separada_mod)
+    
+    # -----------------------------------------------------------------------------------------#
+    
+    # 3) Adicionar ultimos valores novamente no final de cada lista
+    
+    if len(matriz_separada_mod) == len(lista_ultimos_valores):
+        for i in range(len(matriz_separada_mod)):
+            matriz_separada_mod[i].append(lista_ultimos_valores[i])
+    
+    # print("Matriz Separada Mod:", matriz_separada_mod)
+    
+    # -----------------------------------------------------------------------------------------#
+    
+    # 4) Adicionar quantidade de 0 certas na funcao objetivo
+    
+    tamanho_matriz_separada = len(matriz_separada_mod[0])
+    tamanho_ultima_linha = len(ultima_linha)
+    
+    # print("Tamanho Matriz Separada", tamanho_matriz_separada)
+    # print("Tamanho Ultima Linha", tamanho_ultima_linha)
+
+    while tamanho_ultima_linha < tamanho_matriz_separada:
+        ultima_linha.append(0)
+        tamanho_ultima_linha += 1
+
+    # -----------------------------------------------------------------------------------------#
+
+    # 5) Adicionar ultima linha (linha_objetivo) novamente na matriz_separada_mod
+    
+    matriz_separada_mod.append(ultima_linha)
+
+    # -----------------------------------------------------------------------------------------#
+
+    # 7) Retorna matriz_separada_mod para utilizar em calculos
+
+    return matriz_separada_mod
+
+# Agora, matriz_separada_mod conterá as listas originais com a matriz identidade adicionada ao final de cada uma
+
+
 def separaPrimeiraIteracao(matriz):
     
     matriz_copia = copy.deepcopy(matriz)
@@ -46,7 +127,7 @@ def encontraVariaveisBasicas(matriz):
         variaveis_basicas.append("x" + str(num_variaveis_basicas))
         num_variaveis_basicas += 1
         
-    print("VB",variaveis_basicas)
+    # print("Variaveis Basicas", variaveis_basicas)
     
     return variaveis_basicas
 
@@ -60,8 +141,8 @@ def encontrar_colunaPivot(matriz):
             coluna_pivot = numero
             indice_coluna_pivot = i
     
-    print("Coluna Pivot:", coluna_pivot)
-    print("Índice Coluna Pivot:", indice_coluna_pivot)
+    # print("Coluna Pivot:", coluna_pivot)
+    # print("Índice Coluna Pivot:", indice_coluna_pivot)
     
     return indice_coluna_pivot
 
@@ -80,11 +161,10 @@ def encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot):
             if valor < menor_valor:
                 menor_valor = valor
                 indice_linha_pivot = i
-                print(menor_valor)
             
-    print("Index Linha Pivot:", indice_linha_pivot)
-    print("Resultados da Divisão:", resultados_divisao)
-    print("Menor Valor",menor_valor)
+    # print("Index Linha Pivot:", indice_linha_pivot)
+    # print("Resultados da Divisão:", resultados_divisao)
+    # print("Menor Valor",menor_valor)
 
     return indice_linha_pivot
     
@@ -101,11 +181,11 @@ def separaMatriz(matriz):
     matriz_das_restricoes, ultima_linha = separar_ultima_linha(matriz)
     
     variaveis = []  # Lista para armazenar os primeiros n-1 elementos
-    resultados = []      # Lista para armazenar os últimos valores
+    resultados = [] # Lista para armazenar os últimos valores
 
     for linha in matriz_das_restricoes:
         variaveis.append(linha[:-1])  # Adiciona todos os elementos, exceto o último
-        resultados.append(linha[-1])       # Adiciona o último elemento
+        resultados.append(linha[-1])  # Adiciona o último elemento
 
     # print("Variaveis:", variaveis)
     # print("Resultados:", resultados)
@@ -115,7 +195,7 @@ def separaMatriz(matriz):
 def elementoPivot(matriz, indice_linha_pivot, indice_coluna_pivot):
     elemento_pivot = matriz[indice_linha_pivot][indice_coluna_pivot]
     
-    print("Elemento Pivot:", elemento_pivot)
+    # print("Elemento Pivot:", elemento_pivot)
     
     return elemento_pivot
 
@@ -140,6 +220,7 @@ def calculaLinhaCjZj(variaveis_basicas, valores_vars_basica, indice_linha_pivot,
     # print("Indice Coluna:", indice_coluna_pivot)
     # print("Teste:", teste)
     # print("Matriz Restricoes", matriz_das_restricoes)
+    
     variaveis_basicas.pop(indice_linha_pivot)
     variaveis_basicas.insert(indice_linha_pivot, teste2[indice_coluna_pivot])
     
@@ -214,13 +295,49 @@ def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fO
     return matriz_resultante, linha_cjzj
 
 def imprimeMatriz(matriz):
-    print("\n")
     print("Matriz")
     for linha in matriz:
         print(linha)
+
+def imprimeResultado(matriz, iteracao, variaveis_basicas):
     print("\n")
+    print("+=================================+")
+    print("| Resultado Final                 |")
+    print("| Numero de Iteracoes Totais: ",iteracao," |")
+    # print("Variaveis Basicas Finais: ",variaveis_basicas)
+    print("| Solucao Otima                   |") 
     
+    resultado = [linha[-1] for linha in matriz]
+    # print("Resultado:",resultado)
+    
+    for i in range(len(variaveis_basicas)):
+        resultado[i] = int(resultado[i])
+        print(f"| {variaveis_basicas[i]} = {resultado[i]}                          |")
+
+    Z = int(-1 * resultado[-1])
+    print(f"| Z = {Z}                         |")
+    print("+=================================+")
+
 def main():
+    
+    matriz_string1 = [['1','2','3'],
+                     ['4','5','6'],
+                     ['7','8','9'],
+                     ['10','20','30']]
+    
+    matriz_string2 = [['2','1','16'],
+                     ['1','2','11'],
+                     ['1','3','15'],
+                     ['30','50']]
+    
+    
+    matriz_string = matriz_string2
+    
+    matriz_transformada = transformaStringInt(matriz_string)
+    matriz_resultante = adicionaMatrizIdentidade(matriz_transformada)
+    
+    # print("Matriz_Transformada:", matriz_transformada)
+    # print("Matriz_Resultante", matriz_resultante)
     
     matriz1 = [[2, 3, 1, 0, 100],
             [4, 2, 0, 1, 120],
@@ -241,7 +358,7 @@ def main():
                 [1.0, 0.67, 0, 0, 1, 700.0],
                 [10.0, 9.0, 0, 0, 0, 0] ]
 
-    matriz = matriz1
+    matriz = matriz_resultante
 
     iteracao = 1
     
@@ -253,17 +370,22 @@ def main():
     
     matriz, linhacjzj = eliminacao_gaussiana(matriz, variaveis_basicas, valores_variaveis_basicas, linha_fObj_primeira_iteracao, linha_variaveis_totais_primeira_iteracao)
 
-    print(f"Iteracao {iteracao}", imprimeMatriz(matriz))
+    print("Iteracao: ",iteracao)
+    imprimeMatriz(matriz)
+    print("Variaveis Basicas: ",variaveis_basicas)
+    print("\n")
     while True:
         if all(x <= 0 for x in linhacjzj[:-1]):
             break
         else:
             matriz, linhacjzj = eliminacao_gaussiana(matriz, variaveis_basicas, valores_variaveis_basicas, linha_fObj_primeira_iteracao, linha_variaveis_totais_primeira_iteracao)
             iteracao += 1
-            print(f"Iteracao {iteracao}", imprimeMatriz(matriz))
+            print("Iteracao: ",iteracao)
+            imprimeMatriz(matriz)
+            print("Variaveis Basicas: ",variaveis_basicas)
+            print("\n")
 
-    imprimeMatriz(matriz)
-    print("VB",variaveis_basicas)
+    imprimeResultado(matriz, iteracao, variaveis_basicas)
 
 if __name__ == "__main__":
     main()
