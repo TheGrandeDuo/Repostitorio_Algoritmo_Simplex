@@ -2,9 +2,25 @@ import copy
 
 def transformaStringInt(matriz_string):
     
-    matriz_int = [[int(element) for element in row] for row in matriz_string]
+    matriz_int = []
 
-    # print("Matriz Int", matriz_int)
+    for linha in matriz_string:
+        linha_numeros = []
+        for elemento in linha:
+            if '.' in elemento:
+                try:
+                    numero = float(elemento)
+                except ValueError:
+                    numero = elemento
+            else:
+                try:
+                    numero = int(elemento)
+                except ValueError:
+                    numero = elemento
+            linha_numeros.append(numero)
+        matriz_int.append(linha_numeros)
+
+    print(matriz_int)
     return matriz_int
         
 def adicionaMatrizIdentidade(matriz_int):
@@ -195,7 +211,7 @@ def separaMatriz(matriz):
 def elementoPivot(matriz, indice_linha_pivot, indice_coluna_pivot):
     elemento_pivot = matriz[indice_linha_pivot][indice_coluna_pivot]
     
-    # print("Elemento Pivot:", elemento_pivot)
+    print("Elemento Pivot:", elemento_pivot)
     
     return elemento_pivot
 
@@ -203,12 +219,13 @@ def calculaListaFatores(matriz, indice_linha_pivot, indice_coluna_pivot):
     fatores = []
     matriz2, ultimaLinha = separar_ultima_linha(matriz)
     for i in range(len(matriz2)):
+        print(matriz2[i])
+        print(indice_linha_pivot)
         if i != indice_linha_pivot:
             fator = matriz[i][indice_coluna_pivot]
-            if fator not in fatores:
-                fatores.append(-1*fator)
+            fatores.append(-1*fator)
                 
-    # print("Lista Fatores:", fatores)
+    print("Lista Fatores:", fatores)
     
     return fatores
 
@@ -268,13 +285,16 @@ def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fO
     # Duplicacao da lista_pivot para facilitar os calculos
     matriz_pivot = [lista_pivot[:] for _ in range(numero_de_duplicacoes)]
 
-    # print("Matriz Pivot",matriz_pivot)
-    # print("Lista Pivot",lista_pivot)
+    print("Matriz Pivot",matriz_pivot)
+    print("Lista Pivot",lista_pivot)
+
+    print("Fatores:", fatores)
 
     for linha in range(len(matriz_pivot)):
         for coluna in range(len(matriz_pivot[0])):
-            matriz_pivot[linha][coluna] *= fatores[linha]
-            matriz_das_restricoes[linha][coluna] += matriz_pivot[linha][coluna]
+            if matriz_pivot[linha][coluna] != 0:
+                matriz_pivot[linha][coluna] *= fatores[linha]
+                matriz_das_restricoes[linha][coluna] += matriz_pivot[linha][coluna]
 
     # print("Matriz Pivot", matriz_pivot)
     # print("Matriz Nao Pivot", matriz_das_restricoes)
@@ -319,19 +339,68 @@ def imprimeResultado(matriz, iteracao, variaveis_basicas):
     print("+=================================+")
 
 def main():
-    
-    matriz_string1 = [['1','2','3'],
-                     ['4','5','6'],
-                     ['7','8','9'],
-                     ['10','20','30']]
-    
-    matriz_string2 = [['2','1','16'],
+
+    # Exercicio 1    
+    matriz_string1 = [['1','1','450'],
+                     ['2','1','600'],
+                     ['3','4']]
+
+    # Exercicio 2
+    matriz_string2 = [['2','3','100'],
+                     ['4','2','120'],
+                     ['60','40']]
+
+    # Exercicio 3 - Transformada para modo canonico
+    matriz_string3 = [['5','4','200'],
+                     ['3','5','150'],
+                     ['-5','-4','-100'],
+                     ['-8','-4','-80'],
+                     ['300000','400000']]
+
+    # Exercicio 4
+    matriz_string4 = [['2','1','100'],
+                        ['1','1','80'],
+                        ['1','0','40'],
+                        ['3','2']]
+
+    # Exercicio 5
+    matriz_string5 = [['2','1','16'],
                      ['1','2','11'],
                      ['1','3','15'],
                      ['30','50']]
+
+    # Exercicio 6 - Minimizacao (encontrar o dual, da matriz primal de minimizacao)
+    matriz_string6 = [['-2','-4','0.3'],
+                     ['-3','-3','0.4'],
+                     ['-90','-120']]
     
+    # Exercicio 7 - Nao esta em forma canonica, mesmo problema do 3
+    matriz_string7 = [['-1','-1','-20'],
+                     ['2','3','180'],
+                     ['1','0','60'],
+                     ['-1','0','-10'],
+                     ['0','1','40'],
+                     ['3','1']]
     
-    matriz_string = matriz_string2
+    # Exercicio 8
+    matriz_string8 = [['0.7','1','630'],
+                      ['0.5','0.8333','600'],
+                      ['1','0.6666','700'],
+                      ['0.1','0.25','135'],
+                      ['10','9']]
+    
+    # Exercicio 9
+    matriz_string9 = [['0.5','0.3333','130'],
+                    ['0.5','0.6666','170'],
+                    ['20','12.5']]
+
+    # Exercicio 10
+    matriz_string10 = [['1','1','10000'],
+                    ['1','0','6000'],
+                    ['-0','-1','-2000'],
+                    ['0.1','0.07']]
+
+    matriz_string = matriz_string10
     
     matriz_transformada = transformaStringInt(matriz_string)
     matriz_resultante = adicionaMatrizIdentidade(matriz_transformada)
@@ -339,25 +408,6 @@ def main():
     # print("Matriz_Transformada:", matriz_transformada)
     # print("Matriz_Resultante", matriz_resultante)
     
-    matriz1 = [[2, 3, 1, 0, 100],
-            [4, 2, 0, 1, 120],
-            [60, 40, 0, 0, 0]]
-
-    matriz2 = [[2, 1, 1, 0, 0, 16],
-            [1, 2, 0, 1, 0, 11],
-            [1, 3, 0, 0, 1, 15],
-            [30, 50, 0, 0, 0, 0]]
-
-    matriz4 = [ [2.0, 1.0, 1, 0, 0, 100.0],
-                [1.0, 1.0, 0, 1, 0, 80.0],
-                [1.0, 0.0, 0, 0, 1, 40.0],
-                [3.0, 2.0, 0, 0, 0, 0] ]
-    
-    matriz8 = [ [0.7, 1.0, 1, 0, 0, 630.0],
-                [0.5, 0.84, 0, 1, 0, 600.0],
-                [1.0, 0.67, 0, 0, 1, 700.0],
-                [10.0, 9.0, 0, 0, 0, 0] ]
-
     matriz = matriz_resultante
 
     iteracao = 1
