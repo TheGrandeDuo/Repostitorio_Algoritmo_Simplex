@@ -172,6 +172,31 @@ def encontraProblemaDegenerado(resultados_divisao):
     if resultados_divisao.count(min(resultados_divisao)) >= 2:
         print("Sistema Degenerado\n")
 
+def transformaPrimalDual(matriz_primal, minimizacao):
+    if minimizacao == 1:
+        # Encontrando o número máximo de colunas na matriz original
+        num_colunas = max(len(linha) for linha in matriz_primal)
+
+        # Preenchendo as linhas mais curtas com valores vazios
+        for linha in matriz_primal:
+            while len(linha) < num_colunas:
+                linha.append('')
+
+        # Inicialize uma matriz vazia para as colunas
+        matriz_dual = []
+
+        # Iterar pelas colunas
+        for coluna in range(num_colunas):
+            nova_coluna = [linha[coluna] for linha in matriz_primal]
+            matriz_dual.append(nova_coluna)
+
+        matriz_dual[-1].pop()
+
+        print("MC",matriz_dual)
+        return matriz_dual
+    else:
+        return matriz_primal
+        
 def encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot):
       
     resultados_divisao = [1000000 if linha[indice_coluna_pivot] == 0 else rest_valores[i] / linha[indice_coluna_pivot] for i, linha in enumerate(rest_semValores)]
@@ -383,9 +408,14 @@ def main():
                      ['30','50']]
 
     # Exercicio 6 - Minimizacao (encontrar o dual, da matriz primal de minimizacao)
-    matriz_string6 = [['-2','-4','0.3'],
-                     ['-3','-3','0.4'],
-                     ['-90','-120']]
+    
+    matriz_string6_primal = [['2','3','90'],
+                              ['4','3','120'],
+                              ['0.3','0.4']]
+    
+    matriz_string6_dual = [ ['2','4','0.3'],
+                            ['3','3','0.4'],
+                            ['90','120']]
     
     # Exercicio 7 - Nao esta em forma canonica, mesmo problema do 3
     matriz_string7 = [['-1','-1','-20'],
@@ -427,9 +457,19 @@ def main():
                                 ['3','4','12'],
                                 ['4','3']]
 
-    matriz_string = matriz_string7
+    minimizacao = 0
+
+    matriz_string = matriz_string6_primal
+
+    matriz_primal_dual = transformaPrimalDual(matriz_string, minimizacao)
     
-    matriz_transformada = transformaStringInt(matriz_string)
+    matriz_selecionada = matriz_primal_dual
+
+    # matriz_dual = transformaPrimalDual(matriz_string_input, minimizacao)
+    # print(matriz_dual)
+    #matriz_string = matriz_dual
+    
+    matriz_transformada = transformaStringInt(matriz_selecionada)
     matriz_resultante = adicionaMatrizIdentidade(matriz_transformada)
     
     # print("Matriz_Transformada:", matriz_transformada)
@@ -464,5 +504,10 @@ def main():
 
     imprimeResultado(matriz, iteracao, variaveis_basicas)
 
-if __name__ == "__main__":
+
+
+
+    
+
+if __name__ == "__main__":    
     main()

@@ -159,7 +159,7 @@ def encontrar_colunaPivot(matriz):
     
     # print("Coluna Pivot:", coluna_pivot)
     # print("Índice Coluna Pivot:", indice_coluna_pivot)
-    
+        
     return indice_coluna_pivot
 
 def encontrar_linhaPivot(rest_semValores, rest_valores, indice_coluna_pivot):

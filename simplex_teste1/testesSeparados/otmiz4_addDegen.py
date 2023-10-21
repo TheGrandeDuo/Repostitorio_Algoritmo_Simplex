@@ -393,9 +393,9 @@ def main():
                      ['30','50']]
 
     # Exercicio 6 - Minimizacao (encontrar o dual, da matriz primal de minimizacao)
-    matriz_string6 = [['-2','-4','0.3'],
-                     ['-3','-3','0.4'],
-                     ['-90','-120']]
+    matriz_string6 = [['2','4','0.3'],
+                     ['3','3','0.4'],
+                     ['90','120']]
     
     # Exercicio 7 - Nao esta em forma canonica, mesmo problema do 3
     matriz_string7 = [['-1','-1','-20'],
