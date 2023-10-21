@@ -85,7 +85,6 @@ class JanelaMatrizValores:
     
 #     return listaInt
     
-
 def main():
     root = tk.Tk()
     root.geometry("700x400")  # Defina o tamanho da janela principal

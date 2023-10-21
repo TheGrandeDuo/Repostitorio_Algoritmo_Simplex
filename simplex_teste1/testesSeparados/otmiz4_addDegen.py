@@ -118,8 +118,6 @@ def separaVariaveisPrimeiraIteracao(matriz):
         linha_variaveis_totais_primeira_iteracao.append("x" + str(tamanho_linha_variaveis_totais_primeira_iteracao+1))
         tamanho_linha_variaveis_totais_primeira_iteracao += 1
     
-    
-    
     return linha_variaveis_totais_primeira_iteracao
 
 def encontraValoresVariaveisBasicas(matriz):
@@ -148,17 +146,29 @@ def encontraVariaveisBasicas(matriz):
     return variaveis_basicas
 
 def encontrar_colunaPivot(matriz):
+    minimizacao = 2
+    
     ultima_linha = matriz[-1]
     coluna_pivot = ultima_linha[0]
     indice_coluna_pivot = 0
-        
-    for i, numero in enumerate(ultima_linha):
-        if (numero > coluna_pivot):
-            coluna_pivot = numero
-            indice_coluna_pivot = i
     
-    # print("Coluna Pivot:", coluna_pivot)
-    # print("Índice Coluna Pivot:", indice_coluna_pivot)
+    if (minimizacao == 1):
+        for i, numero in enumerate(ultima_linha):
+            print("N",numero)
+            print("CP",coluna_pivot)
+            if(numero > coluna_pivot) and (numero != 0):
+                print("N",numero)
+                print("CP",coluna_pivot)
+                coluna_pivot = numero
+                indice_coluna_pivot = i
+    else:
+        for i, numero in enumerate(ultima_linha):
+            if (numero > coluna_pivot) and (numero != 0):
+                coluna_pivot = numero
+                indice_coluna_pivot = i
+    
+    print("Coluna Pivot:", coluna_pivot)
+    print("Índice Coluna Pivot:", indice_coluna_pivot)
         
     return indice_coluna_pivot
 
@@ -427,7 +437,7 @@ def main():
                                 ['3','4','12'],
                                 ['4','3']]
 
-    matriz_string = matriz_string7
+    matriz_string = matriz_string6
     
     matriz_transformada = transformaStringInt(matriz_string)
     matriz_resultante = adicionaMatrizIdentidade(matriz_transformada)
