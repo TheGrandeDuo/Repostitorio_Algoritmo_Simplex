@@ -114,7 +114,6 @@ class JanelaMatrizValores:
         for linha in listaIn:
             linhas_mais_z.append(linha)
         # self.segunda_janela.destroy()  # Fecha a segunda janela
-        print(linhas_mais_z, self.tipo_simplex)
         return linhas_mais_z, self.tipo_simplex
         # return linhas_mais_z, tipo_simplex
 def main():
