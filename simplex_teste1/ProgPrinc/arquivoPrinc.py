@@ -1,6 +1,7 @@
 import copy
 import tkinter as tk
 from tkinter import ttk
+import math
 
 def transformaStringInt(matriz_string):
     
@@ -119,9 +120,7 @@ def separaVariaveisPrimeiraIteracao(matriz):
     while tamanho_linha_variaveis_totais_primeira_iteracao < tamanho_colunas_matriz_total-1:
         linha_variaveis_totais_primeira_iteracao.append("x" + str(tamanho_linha_variaveis_totais_primeira_iteracao+1))
         tamanho_linha_variaveis_totais_primeira_iteracao += 1
-    
-    
-    
+
     return linha_variaveis_totais_primeira_iteracao
 
 def encontraValoresVariaveisBasicas(matriz):
@@ -194,7 +193,7 @@ def transformaPrimalDual(matriz_primal, minimizacao):
 
         matriz_dual[-1].pop()
 
-        print("MC",matriz_dual)
+        #print("MC",matriz_dual)
         return matriz_dual
     else:
         return matriz_primal
@@ -343,9 +342,7 @@ def eliminacao_gaussiana(matriz, variaveis_basicas, valores_var_basica, linha_fO
     matriz_resultante = [row[:] for row in matriz_das_restricoes]
     
     linha_cjzj = calculaLinhaCjZj(variaveis_basicas, valores_vars_basica, indice_linha_pivot, indice_coluna_pivot, teste, teste2, matriz_das_restricoes)
-    
-    
-    
+
     matriz_resultante.append(linha_cjzj)
     
     # print("Matriz Resultante", matriz_resultante)
@@ -371,11 +368,11 @@ def imprimeResultado(matriz, iteracao, variaveis_basicas):
     # print("Resultado:",resultado)
     
     for i in range(len(variaveis_basicas)):
-        resultado[i] = int(resultado[i])
-        print(f"| {variaveis_basicas[i]} = {resultado[i]}                          |")
+        resultado[i] = float(resultado[i])
+        print(f"| {variaveis_basicas[i]} = {round(resultado[i],3)}                          |")
 
-    Z = int(-1 * resultado[-1])
-    print(f"| Z = {Z}                         |")
+    Z = float(-1 * resultado[-1])
+    print(f"| Z = {round(Z,3)}                         |")
     print("+=================================+")
 
 class JanelaEntradaDados:
@@ -491,14 +488,14 @@ class JanelaMatrizValores:
         for linha in listaIn:
             linhas_mais_z.append(linha)
 
-        print( "matriz",linhas_mais_z)
-        print("tipo", self.tipo_simplex)
+        #print( "matriz",linhas_mais_z)
+        #print("tipo", self.tipo_simplex)
         
         if (self.tipo_simplex == "Maximização"):
-            print("max")
+            #print("max")
             minimizacao = 0
         else:
-            print("min")
+            #print("min")
             minimizacao = 1
 
         matriz_string = linhas_mais_z
@@ -526,6 +523,10 @@ class JanelaMatrizValores:
         
         linha_fObj_primeira_iteracao = separaPrimeiraIteracao(matriz)
         linha_variaveis_totais_primeira_iteracao = separaVariaveisPrimeiraIteracao(matriz)
+        
+        print("Iteracao: ",iteracao-1)
+        imprimeMatriz(matriz)
+        print("\n")
         
         matriz, linhacjzj = eliminacao_gaussiana(matriz, variaveis_basicas, valores_variaveis_basicas, linha_fObj_primeira_iteracao, linha_variaveis_totais_primeira_iteracao)
 
